@@ -8,6 +8,6 @@ type User {
     firstName: String!
     lastName: String
     email : String!
-    profileImageURL : String
+    profileImageUrl : String
 }
 `;

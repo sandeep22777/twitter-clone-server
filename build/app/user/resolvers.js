@@ -44,7 +44,18 @@ const queries = {
             throw new Error("User with email not found");
         const jwtToken = jwt_1.default.generateTokenForUSer(userInDB);
         console.log(data, "data");
+        console.log(jwtToken, "jwtToken");
         return jwtToken;
+    }),
+    getCurrentUser: (parent, args, ctx) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
+        console.log(ctx, "context");
+        const id = (_a = ctx.user) === null || _a === void 0 ? void 0 : _a.id;
+        if (!id)
+            return null;
+        const user = yield db_1.prismaClient.user.findUnique({ where: { id } });
+        console.log(user, "puser");
+        return user;
     }),
 };
 exports.resolvers = { queries };
