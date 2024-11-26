@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resolvers = void 0;
+exports.resolvers = exports.extraResolver = void 0;
 const axios_1 = __importDefault(require("axios"));
 const db_1 = require("../../clients/db");
 const jwt_1 = __importDefault(require("../../services/jwt"));
@@ -54,8 +54,16 @@ const queries = {
         if (!id)
             return null;
         const user = yield db_1.prismaClient.user.findUnique({ where: { id } });
-        console.log(user, "puser");
         return user;
     }),
 };
-exports.resolvers = { queries };
+exports.extraResolver = {
+    User: {
+        tweets: (parent) => __awaiter(void 0, void 0, void 0, function* () {
+            return yield db_1.prismaClient.tweet.findMany({
+                where: { author: { id: parent.id } },
+            });
+        }),
+    },
+};
+exports.resolvers = { queries, extraResolver: exports.extraResolver };

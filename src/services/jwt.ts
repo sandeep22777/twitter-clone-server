@@ -20,9 +20,8 @@ class JWTService {
     try {
       return JWT.verify(token, JWT_SECRET) as JWTUser;
     } catch (error) {
-      return null
+      return null;
     }
-    
   }
 }
 
